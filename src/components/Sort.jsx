@@ -1,10 +1,10 @@
 import React from 'react';
 
-function Sort() {
-  const allSortItems = ['популярности', 'цене', 'алфовиту'];
+function Sort({ setSortItem, sortItem }) {
+  const allSortItems = ['популярности', 'цене', 'алфавиту'];
 
   const [open, setopen] = React.useState(false);
-  const [sortItem, setSortItem] = React.useState(0);
+  // const [sortItem, setSortItem] = React.useState(0);
 
   return (
     <div class="sort">

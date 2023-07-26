@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Categories() {
+function Categories({ setCategory, category }) {
   const categories = ['Все', 'Мясные', 'Вегетарианскые', 'Гриль', 'Острые', 'Закрытые'];
-  const [category, setCategory] = React.useState(0);
-
+  // const [category, setCategory] = React.useState(0);
+  console.log(category);
   return (
     <div class="categories">
       <ul>

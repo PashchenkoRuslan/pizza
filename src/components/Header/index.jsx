@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import PizzaSVG from './PizzaSVG';
+import PizzaSVG from '../PizzaSVG';
+import SearchInput from '../SearchInput';
 
-function Header() {
+function Header({ searchItems, setSearchItems }) {
   return (
     <div class="header">
       <div class="container">
@@ -15,6 +16,9 @@ function Header() {
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </div>
+
+        <SearchInput searchItems={searchItems} setSearchItems={setSearchItems} />
+
         <div class="header__cart">
           <Link to="/cart" class="button button--cart">
             <span>520 ₽</span>

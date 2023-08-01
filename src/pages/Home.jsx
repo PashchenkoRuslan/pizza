@@ -3,21 +3,28 @@ import PizzaBlock from '../components/PizzaBlock';
 import Sort from '../components/Sort';
 import Skeleton from '../components/Skeleton';
 import Categories from '../components/Categories';
+import Pagination from '../components/Pagination';
 
-const Home = () => {
+const Home = ({ searchItems }) => {
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [category, setCategory] = React.useState(0);
   const [sortBy, setSortBy] = React.useState(0);
-
+  const [currentPage, setCurrentPage] = React.useState(1);
   const sorting = ['rating', 'price', 'title'];
+
+  // Pagination attributes
+  const totalPages = 3;
+  const elementOfPagination = 4;
 
   React.useEffect(() => {
     setIsLoading(true);
     fetch(
       `https://64a48816c3b509573b579f95.mockapi.io/pizzas?${
         category > 0 ? `category=${category}` : ''
-      }&sortBy=${sorting[sortBy]}`,
+      }&sortBy=${
+        sorting[sortBy]
+      }&page=${currentPage}&limit=${elementOfPagination}&search=${searchItems}`,
     )
       .then((res) => {
         return res.json();
@@ -26,7 +33,7 @@ const Home = () => {
         setPizzas(arr);
         setIsLoading(false);
       });
-  }, [category, sortBy]);
+  }, [category, sortBy, currentPage, searchItems]);
 
   return (
     <div class="container">
@@ -40,6 +47,7 @@ const Home = () => {
           ? [...new Array(8)].map(() => <Skeleton />)
           : pizzas.map((obj) => <PizzaBlock {...obj} />)}
       </div>
+      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
     </div>
   );
 };

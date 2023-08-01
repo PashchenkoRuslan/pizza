@@ -10,14 +10,16 @@ import { Route, Routes } from 'react-router-dom';
 // import pizzas from './pizzas.json';
 
 function App() {
+  const [searchItems, setSearchItems] = React.useState('');
+
   return (
     <div className="App">
       <body>
         <div class="wrapper">
-          <Header />
+          <Header searchItems={searchItems} setSearchItems={setSearchItems} />
           <div class="content">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home searchItems={searchItems} />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="*" element={<Notfound />} />
             </Routes>

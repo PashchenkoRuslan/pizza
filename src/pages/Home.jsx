@@ -4,14 +4,16 @@ import Sort from '../components/Sort';
 import Skeleton from '../components/Skeleton';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
+import { SearchContext } from '../App';
 
-const Home = ({ searchItems }) => {
+const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [category, setCategory] = React.useState(0);
   const [sortBy, setSortBy] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(1);
   const sorting = ['rating', 'price', 'title'];
+  const { searchItems } = React.useContext(SearchContext);
 
   // Pagination attributes
   const totalPages = 3;

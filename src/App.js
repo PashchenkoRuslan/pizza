@@ -7,6 +7,7 @@ import Cart from './pages/Cart';
 
 import { Route, Routes } from 'react-router-dom';
 
+export const SearchContext = React.createContext();
 // import pizzas from './pizzas.json';
 
 function App() {
@@ -16,14 +17,16 @@ function App() {
     <div className="App">
       <body>
         <div class="wrapper">
-          <Header searchItems={searchItems} setSearchItems={setSearchItems} />
-          <div class="content">
-            <Routes>
-              <Route path="/" element={<Home searchItems={searchItems} />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="*" element={<Notfound />} />
-            </Routes>
-          </div>
+          <SearchContext.Provider value={{ searchItems, setSearchItems }}>
+            <Header />
+            <div class="content">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="*" element={<Notfound />} />
+              </Routes>
+            </div>
+          </SearchContext.Provider>
         </div>
       </body>
     </div>

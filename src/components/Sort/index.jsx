@@ -1,10 +1,14 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSortItem } from '../../redux/slices/allSortSlice';
 
-function Sort({ setSortItem, sortItem }) {
+function Sort() {
   const allSortItems = ['популярности', 'цене', 'алфавиту'];
+  const sortItem = useSelector((state) => state.allSort.sortItem);
+  const dispatch = useDispatch();
+  console.log('sortItem on Sort.js', sortItem);
 
   const [open, setopen] = React.useState(false);
-  // const [sortItem, setSortItem] = React.useState(0);
 
   return (
     <div class="sort">
@@ -27,7 +31,9 @@ function Sort({ setSortItem, sortItem }) {
         <div class="sort__popup">
           <ul>
             {allSortItems.map((item, i) => (
-              <li className={sortItem === i ? 'active' : ''} onClick={() => setSortItem(i)}>
+              <li
+                className={sortItem === i ? 'active' : ''}
+                onClick={() => dispatch(setSortItem(i))}>
                 {item}
               </li>
             ))}

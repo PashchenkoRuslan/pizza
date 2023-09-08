@@ -6,13 +6,12 @@ function Sort() {
   const allSortItems = ['популярности', 'цене', 'алфавиту'];
   const sortItem = useSelector((state) => state.allSort.sortItem);
   const dispatch = useDispatch();
-  console.log('sortItem on Sort.js', sortItem);
 
   const [open, setopen] = React.useState(false);
 
   return (
-    <div class="sort">
-      <div class="sort__label" onClick={() => setopen(!open)}>
+    <div className="sort">
+      <div className="sort__label" onClick={() => setopen(!open)}>
         <svg
           width="10"
           height="6"
@@ -28,7 +27,7 @@ function Sort() {
         <span>{allSortItems[sortItem]}</span>
       </div>
       {open && (
-        <div class="sort__popup">
+        <div className="sort__popup">
           <ul>
             {allSortItems.map((item, i) => (
               <li
@@ -40,7 +39,7 @@ function Sort() {
           </ul>
           {/* 
           <ul>
-            <li class="active">популярности</li>
+            <li className="active">популярности</li>
             <li>цене</li>
             <li>алфавиту</li>
           </ul> */}

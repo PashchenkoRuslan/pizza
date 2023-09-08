@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './Pagination.module.scss';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentPage } from '../../redux/slices/allSortSlice';
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination = ({ totalPages }) => {
+  const currentPage = useSelector((state) => state.allSort.currentPage);
+
+  const dispatch = useDispatch();
+  const searchRef = React.useRef();
+
   const pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
@@ -12,15 +19,18 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       <ul className={styles.wrapper}>
         <li className={` ${currentPage === 1 ? 'disabled' : ''}`}>
           <button
+            ref={searchRef}
             className={`${styles['page-item']}`}
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => dispatch(setCurrentPage(currentPage - 1))}
             disabled={currentPage === 1}>
             back
           </button>
         </li>
         {pageNumbers.map((number) => (
           <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-            <button className={`${styles['page-item']}`} onClick={() => onPageChange(number)}>
+            <button
+              className={`${styles['page-item']}`}
+              onClick={() => dispatch(setCurrentPage(number))}>
               {number}
             </button>
           </li>
@@ -28,7 +38,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
           <button
             className={`${styles['page-item']}`}
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={() => dispatch(setCurrentPage(currentPage + 1))}
             disabled={currentPage === totalPages}>
             Next
           </button>

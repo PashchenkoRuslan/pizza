@@ -1,15 +1,25 @@
 import React from 'react';
 import styles from './SearchInput.module.scss';
 import { SearchContext } from '../../App';
+import debounce from 'lodash.debounce';
 
 const SearchInput = () => {
-  // const [searchTerm, setSearchTerm] = React.useState('');
-  const { searchItems, setSearchItems } = React.useContext(SearchContext);
+  const { setSearchItems } = React.useContext(SearchContext);
+  const [value, setValue] = React.useState('');
+
+  const searchRef = React.useRef();
+
+  const updateSeachItems = React.useCallback(
+    debounce((str) => {
+      setSearchItems(str);
+    }, 250),
+    [],
+  );
 
   React.useEffect(() => {
     const handleKeyPress = (event) => {
       if (event.keyCode === 27) {
-        setSearchItems(''); // Очищаем значение input
+        clearButton();
       }
     };
 
@@ -21,8 +31,14 @@ const SearchInput = () => {
   }, []);
 
   const handleSearch = (event) => {
-    setSearchItems(event.target.value);
-    // onSearch(searchTerm);
+    setValue(event.target.value);
+    updateSeachItems(event.target.value);
+  };
+
+  const clearButton = () => {
+    setSearchItems('');
+    setValue('');
+    searchRef.current.focus();
   };
 
   return (
@@ -31,10 +47,11 @@ const SearchInput = () => {
         className={styles.search_input}
         type="text"
         placeholder="Поиск пицц..."
-        value={searchItems}
+        value={value}
         onChange={handleSearch}
+        ref={searchRef}
       />
-      <button className={styles.clear} onClick={() => setSearchItems('')}>
+      <button className={styles.clear} onClick={clearButton}>
         X
       </button>
     </div>

@@ -1,32 +1,32 @@
 import React from 'react';
+import qs from 'qs';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import { SearchContext } from '../App';
+
 import PizzaBlock from '../components/PizzaBlock';
 import Sort from '../components/Sort';
 import Skeleton from '../components/Skeleton';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { setSortItem } from '../redux/slices/allSortSlice';
-import axios from 'axios';
 
 const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   // const [sortBy, setSortBy] = React.useState(0);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  // const [currentPage, setCurrentPage] = React.useState(1);
   const sorting = ['rating', 'price', 'title'];
   const { searchItems } = React.useContext(SearchContext);
 
   const category = useSelector((state) => state.allSort.category);
   const sortBy = useSelector((state) => state.allSort.sortItem);
+  const currentPage = useSelector((state) => state.allSort.currentPage);
+
   const dispatch = useDispatch();
 
   // Pagination attributes
   const totalPages = 3;
   const elementOfPagination = 4;
-
-  console.log('sortBy', sortBy);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -61,19 +61,31 @@ const Home = () => {
       });
   }, [category, sortBy, currentPage, searchItems]);
 
+  // React.useEffect(() => {
+  //   const queryString = qs.stringify({});
+  // }, [category, sortBy, currentPage, searchItems]);
+
+  // React.useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = qs.parse(window.location.search.substring(1))
+  //     console.log(window.location.search);
+  //     dispatch(setFilters({...params}))
+  //   }
+  // });
+
   return (
-    <div class="container">
-      <div class="content__top">
+    <div className="container">
+      <div className="content__top">
         <Categories />
         <Sort />
       </div>
-      <h2 class="content__title">Все пиццы</h2>
-      <div class="content__items">
+      <h2 className="content__title">Все пиццы</h2>
+      <div className="content__items">
         {isLoading
-          ? [...new Array(8)].map(() => <Skeleton />)
-          : pizzas.map((obj) => <PizzaBlock {...obj} />)}
+          ? [...new Array(8)].map((obj, i) => <Skeleton key={i} />)
+          : pizzas.map((obj, i) => <PizzaBlock key={i} {...obj} />)}
       </div>
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      <Pagination totalPages={totalPages} />
     </div>
   );
 };

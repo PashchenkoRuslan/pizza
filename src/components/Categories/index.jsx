@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategory } from '../../redux/slices/categorySlice';
+import { setCategory } from '../../redux/slices/allSortSlice';
 
 function Categories() {
   const category = useSelector((state) => state.allSort.category);
@@ -9,10 +9,13 @@ function Categories() {
   const categories = ['Все', 'Мясные', 'Вегетарианскые', 'Гриль', 'Острые', 'Закрытые'];
   // const [category, setCategory] = React.useState(0);
   return (
-    <div class="categories">
+    <div className="categories">
       <ul>
         {categories.map((cat, i) => (
-          <li onClick={() => dispatch(setCategory(i))} className={category === i ? 'active' : ''}>
+          <li
+            key={i}
+            onClick={() => dispatch(setCategory(i))}
+            className={category === i ? 'active' : ''}>
             {cat}
           </li>
         ))}

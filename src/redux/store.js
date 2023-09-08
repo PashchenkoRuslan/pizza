@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import categorySlice from './slices/categorySlice';
-import sortSlice from './slices/sortSlice';
 import allSortSlice from './slices/allSortSlice';
+import cartSlice from './slices/cartSlice';
 
 export default configureStore({
   reducer: {
     allSort: allSortSlice,
-    // categoriya: categorySlice,
-    // sorting: sortSlice,
+    cart: cartSlice,
   },
 });

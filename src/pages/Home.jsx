@@ -9,30 +9,29 @@ import Sort from '../components/Sort';
 import Skeleton from '../components/Skeleton';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
+import { fetchPizzas, setIsLoading } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
-  const [pizzas, setPizzas] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  // const [sortBy, setSortBy] = React.useState(0);
-  // const [currentPage, setCurrentPage] = React.useState(1);
+  // const [pizzas, setPizzas] = React.useState([]);
+  // const [isLoading, setIsLoading] = React.useState(true);
   const sorting = ['rating', 'price', 'title'];
   const { searchItems } = React.useContext(SearchContext);
+  const isLoading = useSelector((state) => state.pizzas.isLoading);
 
+  const pizzas = useSelector((state) => state.pizzas.pizzas);
   const category = useSelector((state) => state.allSort.category);
   const sortBy = useSelector((state) => state.allSort.sortItem);
   const currentPage = useSelector((state) => state.allSort.currentPage);
 
   const dispatch = useDispatch();
 
-  // Pagination attributes
   const totalPages = 3;
   const elementOfPagination = 4;
 
+  console.log(isLoading);
   React.useEffect(() => {
     setIsLoading(true);
 
-    //realize with fetch
-    // fetch(
     //   `https://64a48816c3b509573b579f95.mockapi.io/pizzas?${
     //     category > 0 ? `category=${category}` : ''
     //   }&sortBy=${
@@ -46,32 +45,30 @@ const Home = () => {
     //     setPizzas(arr);
     //     setIsLoading(false);
     //   });
+    // const fetchpizzas = async () => {
+    //   try {
+    //     const res = await axios.get(
+    //       `https://64a48816c3b509573b579f95.mockapi.io/pizzas?${
+    //         category > 0 ? `category=${category}` : ''
+    //       }&sortBy=${
+    //         sorting[sortBy]
+    //       }&page=${currentPage}&limit=${elementOfPagination}&search=${searchItems}`,
+    //     );
+    //     setPizzas(res.data);
+    //   } catch (error) {
+    //     setPizzas([]);
+    //     console.log('axios error', error);
+    //   } finally {
+    //     setIsLoading(false);
+    //   }
+    // };
 
-    axios
-      .get(
-        `https://64a48816c3b509573b579f95.mockapi.io/pizzas?${
-          category > 0 ? `category=${category}` : ''
-        }&sortBy=${
-          sorting[sortBy]
-        }&page=${currentPage}&limit=${elementOfPagination}&search=${searchItems}`,
-      )
-      .then((res) => {
-        setPizzas(res.data);
-        setIsLoading(false);
-      });
+    dispatch(
+      fetchPizzas({ category, sorting, sortBy, currentPage, elementOfPagination, searchItems }),
+    );
+    // setPizzas
+    // fetchpizzas();
   }, [category, sortBy, currentPage, searchItems]);
-
-  // React.useEffect(() => {
-  //   const queryString = qs.stringify({});
-  // }, [category, sortBy, currentPage, searchItems]);
-
-  // React.useEffect(() => {
-  //   if (window.location.search) {
-  //     const params = qs.parse(window.location.search.substring(1))
-  //     console.log(window.location.search);
-  //     dispatch(setFilters({...params}))
-  //   }
-  // });
 
   return (
     <div className="container">
